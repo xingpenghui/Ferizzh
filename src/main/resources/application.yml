@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:mysql://39.105.189.141:3306/db_wit?serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: qfedu
+    password: 1000phone@Zz
