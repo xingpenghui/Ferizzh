@@ -23,13 +23,9 @@ public class IndexApp {
 
     @RequestMapping(value = "wxchartindex.do",method={RequestMethod.GET,RequestMethod.POST})
     public void index(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
         if (request.getMethod().toUpperCase().equals("GET")){
             //认证
-            /*
-            * signature	微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
-timestamp	时间戳
-nonce	随机数
-echostr*/
             String signature=request.getParameter("signature");
             String timestamp=request.getParameter("timestamp");
             String nonce=request.getParameter("nonce");
@@ -60,6 +56,42 @@ echostr*/
                                     break;
                             }
                         }
+                        break;
+                    case "text":
+                        //文本消息
+                        System.out.println("接收消息："+map.get("Content"));
+                        String m=map.get("Content");
+                        switch (m){
+                            case "1":
+                                StringBuffer buffer=new StringBuffer();
+                                buffer.append("1、进入首页 home\r\n");
+                                buffer.append("2、查看简历 jianli\r\n");
+                                buffer.append("3、官网 oa\r\n");
+                                buffer.append("4、靓照 lz\r\n");
+                                buffer.append("5、Java java\r\n");
+                                buffer.append("6、菜单 1\r\n");
+                                msg=buffer.toString();
+                                break;
+                            case "home":
+                                msg="请点击主页：http://www.1000phone.com";
+
+                                break;
+                            case "jianli":
+                                msg="优秀简历，请点击主页：http://www.lugege.design:8080/note/";
+                                break;
+                                default:
+                                    msg="收到你的消息："+map.get("Content");
+                                    break;
+                        }
+
+                        break;
+                    case "image":
+                        System.out.println("接收图片："+map.get("PicUrl"));
+                        msg="收到你的图片";
+                        break;
+                    case "voice":
+                        System.out.println("接收语音："+map.get("MediaId"));
+                        msg="收到语音，正在解析……";
                         break;
                 }
                 TextMessage textMessage=new TextMessage();
